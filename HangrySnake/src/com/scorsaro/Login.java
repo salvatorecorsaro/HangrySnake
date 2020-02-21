@@ -16,7 +16,7 @@ import java.sql.SQLException;
 public class Login extends JFrame {
 
 
-
+    private ControlFlow controlFlow;
     private Responsive responsive;
     private LoginCheck loginCheck;
     private JFrame mainFrame;
@@ -35,8 +35,9 @@ public class Login extends JFrame {
     Font arcadeLarge;
 
 
-    public Login(Responsive responsive) throws IOException {
+    public Login(Responsive responsive, ControlFlow controlFlow) throws IOException {
         this.responsive = responsive;
+        this.controlFlow = controlFlow;
         this.arcadeMedium = responsive.arcadeMedium;
         this.arcadeLarge = responsive.arcadeLarge;
         initUI();
@@ -51,7 +52,7 @@ public class Login extends JFrame {
         int fHeight;
 
         mainFrame = new JFrame("Login");
-        mainFrame.setSize(rWidth * 30, rHeight * 45);
+        mainFrame.setSize(rWidth * 30, rHeight * 55);
         mainFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
         mainFrame.getContentPane().setBackground(Color.black);
         mainFrame.setLocationRelativeTo(null);
@@ -108,7 +109,12 @@ public class Login extends JFrame {
         btnSignUp.setFont(arcadeMedium);
         btnSignUp.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
-
+                hideUI();
+                try {
+                    controlFlow.startSignUp();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
         btnSignUp.setBounds((int)(fWidth * 0.55), (int)(fHeight * 0.7), fWidth/4, fHeight/10);

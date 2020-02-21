@@ -6,14 +6,15 @@ import java.sql.SQLException;
 
 public class ControlFlow {
 private Responsive responsive;
-private Login login;
+ Login login;
 private CreateConnection con;
 private LoginCheck loginCheck;
+SignUp signUp;
 Home home;
 
 public ControlFlow() throws IOException, FontFormatException, SQLException {
         responsive = new Responsive();
-        login = new Login(responsive);
+        login = new Login(responsive, this);
 
         con = new CreateConnection(login);
 
@@ -38,5 +39,13 @@ public ControlFlow() throws IOException, FontFormatException, SQLException {
         con.setHiScores(hiScores);
         con.updateTableHiScores();
         hiScores.showUI();
+    }
+
+    public void startSignUp() throws IOException {
+    var signUp = new SignUp(responsive, this);
+    this.signUp = signUp;
+    signUp.showUI();
+    var signUpInsert = new SignUpInsert(this, con);
+    signUp.setSignUpInsert(signUpInsert);
     }
 }

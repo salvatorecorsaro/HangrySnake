@@ -61,6 +61,31 @@ public class CreateConnection {
             return false;
     }
 
+    public boolean searchData(String what, String table, String column, String data) throws SQLException {
+        Statement stmt = con.createStatement();
+        ResultSet rs = stmt.executeQuery
+                ("select " + what + " from " + table + " where " + column + " = '" + data + "'");
+        int counter = 0;
+        while (rs.next()) {
+            counter++;
+        }
+        stmt.close();
+        rs.close();
+        if (counter > 0)
+            return true;
+        else
+            return false;
+    }
+    public void insertData( String usr, String pwd, String email, String color) throws SQLException {
+        Statement stmt = con.createStatement();
+        System.out.println("insert into users values ( default ,'" + usr + "' , '" + pwd + "' , '" + email + "', '" + color + "', 1)");
+        stmt.execute
+                ("insert into users values ( default ,'" + usr + "' , '" + pwd + "' , '" + email + "', '" + color + "', 1)");
+        stmt.close();
+
+
+    }
+
 
     public void setHiScores(HiScores hiScores) {
         this.hiScores = hiScores;
