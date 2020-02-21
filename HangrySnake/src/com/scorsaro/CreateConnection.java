@@ -12,7 +12,7 @@ public class CreateConnection {
 
 
     private HiScores hiScores;
-    private String db = "debossGame";
+    private String db = "hangry_snake";
     private String user = "root";
     private String pwd = "test";
     private String url = "jdbc:mysql://localhost/" + db;

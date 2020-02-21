@@ -99,7 +99,7 @@ public class Login extends JFrame {
 
             }
         });
-        btnLogin.setBounds((int)(fWidth * 0.20), (int)(fHeight * 0.7), fWidth/4, fHeight/10);
+        btnLogin.setBounds((int)(fWidth * 0.55), (int)(fHeight * 0.7), fWidth/4, fHeight/10);
         mainFrame.getContentPane().add(btnLogin);
 
         btnSignUp = new JButton("Sign up");
@@ -117,7 +117,7 @@ public class Login extends JFrame {
                 }
             }
         });
-        btnSignUp.setBounds((int)(fWidth * 0.55), (int)(fHeight * 0.7), fWidth/4, fHeight/10);
+        btnSignUp.setBounds((int)(fWidth * 0.20), (int)(fHeight * 0.7), fWidth/4, fHeight/10);
         mainFrame.getContentPane().add(btnSignUp);
 
 
