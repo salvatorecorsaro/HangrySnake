@@ -6,24 +6,21 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 
+import static java.lang.Thread.sleep;
+
 
 public class Home extends JFrame {
 
 
-
     private Responsive responsive;
-
-
     private ControlFlow controlFlow;
     private JFrame mainFrame;
-
-    private JLabel lblEunomia;
-
     private JButton btnPlay;
     private JButton btnHiScores;
     private JButton btnSettings;
@@ -40,7 +37,7 @@ public class Home extends JFrame {
 
     private void initUI() throws IOException {
 
-        var rFont = responsive.responsiveFont;
+
         var rWidth = responsive.unitWidth;
         var rHeight = responsive.unitHeight;
         int fWidth;
@@ -59,9 +56,9 @@ public class Home extends JFrame {
         fHeight = mainFrame.getHeight();
 
         BufferedImage logoSrc = ImageIO.read(new File("pics/hangrySnake.png"));
-        logo = new JLabel(new ImageIcon(logoSrc.getScaledInstance((int)(fWidth/1.5), fHeight/5, Image.SCALE_FAST)));
+        logo = new JLabel(new ImageIcon(logoSrc.getScaledInstance((int) (fWidth / 1.5), fHeight / 5, Image.SCALE_FAST)));
         mainFrame.add(logo);
-        logo.setBounds((int)(fWidth * 0.165), (int)(fHeight * 0.01), (int)(fWidth/1.5) , fHeight/5);
+        logo.setBounds((int) (fWidth * 0.165), (int) (fHeight * 0.01), (int) (fWidth / 1.5), fHeight / 5);
 
 
         btnPlay = new JButton("PLAY");
@@ -71,19 +68,20 @@ public class Home extends JFrame {
         btnPlay.setBackground(Color.black);
         btnPlay.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
+                hideUI();
+                controlFlow.startGame();
 
-                //TODO
 
             }
         });
-        btnPlay.setBounds(fWidth / 4, (int)(fHeight * 0.44), fWidth/2, fHeight/7);
+        btnPlay.setBounds(fWidth / 4, (int) (fHeight * 0.44), fWidth / 2, fHeight / 7);
         mainFrame.getContentPane().add(btnPlay);
 
         btnHiScores = new JButton("HIGHSCORES");
         btnHiScores.setFont(arcadeMedium);
         btnHiScores.setForeground(Color.red);
         btnHiScores.setBackground(Color.black);
-        btnHiScores.setBorder(new LineBorder(Color.YELLOW, rHeight/2));
+        btnHiScores.setBorder(new LineBorder(Color.YELLOW, rHeight / 2));
         btnHiScores.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
 
@@ -99,14 +97,14 @@ public class Home extends JFrame {
 
             }
         });
-        btnHiScores.setBounds(fWidth / 4, (int)(fHeight * 0.60), fWidth/2, fHeight/15);
+        btnHiScores.setBounds(fWidth / 4, (int) (fHeight * 0.60), fWidth / 2, fHeight / 15);
         mainFrame.getContentPane().add(btnHiScores);
 
         btnMultiplayer = new JButton("MULTIPLAYER");
         btnMultiplayer.setFont(arcadeMedium);
         btnMultiplayer.setForeground(Color.green);
         btnMultiplayer.setBackground(Color.black);
-        btnMultiplayer.setBorder(new LineBorder(Color.red, rHeight/2));
+        btnMultiplayer.setBorder(new LineBorder(Color.red, rHeight / 2));
         btnMultiplayer.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
                 //TODO
@@ -114,14 +112,14 @@ public class Home extends JFrame {
 
             }
         });
-        btnMultiplayer.setBounds(fWidth / 4, (int)(fHeight * 0.68), fWidth/2, fHeight/15);
+        btnMultiplayer.setBounds(fWidth / 4, (int) (fHeight * 0.68), fWidth / 2, fHeight / 15);
         mainFrame.getContentPane().add(btnMultiplayer);
 
         btnSettings = new JButton("SETTINGS");
         btnSettings.setFont(arcadeMedium);
         btnSettings.setForeground(Color.cyan);
         btnSettings.setBackground(Color.black);
-        btnSettings.setBorder(new LineBorder(Color.blue, rHeight/2));
+        btnSettings.setBorder(new LineBorder(Color.blue, rHeight / 2));
         btnSettings.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
                 //TODO
@@ -129,51 +127,45 @@ public class Home extends JFrame {
 
             }
         });
-        btnSettings.setBounds((fWidth / 4), (int)(fHeight * 0.76), fWidth/2, fHeight/15);
+        btnSettings.setBounds((fWidth / 4), (int) (fHeight * 0.76), fWidth / 2, fHeight / 15);
         mainFrame.getContentPane().add(btnSettings);
 
         btnQuit = new JButton("QUIT");
         btnQuit.setFont(arcadeMedium);
         btnQuit.setForeground(Color.yellow);
         btnQuit.setBackground(Color.black);
-        btnQuit.setBorder(new LineBorder(Color.cyan, rHeight/2));
+        btnQuit.setBorder(new LineBorder(Color.cyan, rHeight / 2));
         btnQuit.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
-                //TODO
+                try {
+                    sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                exitGame();
 
 
             }
         });
-        btnQuit.setBounds((int)(fWidth * 0.3), (int)(fHeight * 0.84), (int)(fWidth * 0.4), fHeight/15);
+        btnQuit.setBounds((int) (fWidth * 0.3), (int) (fHeight * 0.84), (int) (fWidth * 0.4), fHeight / 15);
         mainFrame.getContentPane().add(btnQuit);
 
-        showUI();
-
-
-
-//        lblEunomia = new JLabel("Eunomia");
-//        lblEunomia.setFont(rFont);
-//        lblEunomia.setBounds(156, 74, 70, 15);
-//        mainFrame.getContentPane().add(lblEunomia);
-//
-//        JCheckBox chckbxRememberMe = new JCheckBox("remember me");
-//        chckbxRememberMe.setBounds(139, 364, 129, 23);
-//        mainFrame.getContentPane().add(chckbxRememberMe);
+        showUI(true);
 
 
     }
-
-
 
 
     public void hideUI() {
         mainFrame.setVisible(false);
     }
 
-    public void showUI() {
-        mainFrame.setVisible(true);
+    public void showUI(boolean value) {
+        mainFrame.setVisible(value);
     }
-
+    public void exitGame() {
+        mainFrame.dispatchEvent(new WindowEvent(mainFrame, WindowEvent.WINDOW_CLOSING));
+    }
     public void setControlFlow(ControlFlow controlFlow) {
         this.controlFlow = controlFlow;
     }

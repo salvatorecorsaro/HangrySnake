@@ -12,6 +12,7 @@ public class Responsive {
     int unitHeight;
     int unitWidth;
     Font responsiveFont;
+    Font arcadeSmall;
     Font arcadeMedium;
     Font arcadeLarge;
 
@@ -31,11 +32,14 @@ public class Responsive {
     }
 
     private void setArcadeFont() throws FontFormatException, IOException {
-        arcadeMedium = Font.createFont(Font.TRUETYPE_FONT, new File("fonts/arcade.TTF")).deriveFont(screenHeight/35);
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        arcadeSmall = Font.createFont(Font.TRUETYPE_FONT, new File("fonts/arcade.TTF")).deriveFont(screenHeight/45);
+        ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("fonts/arcade.TTF")));
+        arcadeMedium = Font.createFont(Font.TRUETYPE_FONT, new File("fonts/arcade.TTF")).deriveFont(screenHeight/35);
         ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("fonts/arcade.TTF")));
         arcadeLarge = Font.createFont(Font.TRUETYPE_FONT, new File("fonts/arcade.TTF")).deriveFont(screenHeight/20);
         ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("fonts/arcade.TTF")));
+
     }
 
 

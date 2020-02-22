@@ -22,7 +22,6 @@ public class Login extends JFrame {
     private JFrame mainFrame;
     private JPasswordField pwdPassword;
     private JTextField txtUsername;
-    private JLabel lblEunomia;
     JLabel coinPic1;
     JLabel coinPic2;
     JLabel coinPic3;

@@ -112,7 +112,7 @@ public class HiScores extends JFrame {
         btnMenu.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
                 hideUI();
-                controlFlow.home.showUI();
+                controlFlow.home.showUI(true);
 
 
             }
@@ -127,14 +127,14 @@ public class HiScores extends JFrame {
         btnQuit.setBorder(new LineBorder(Color.cyan, rHeight/2));
         btnQuit.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
-                if ( 1 == 1 ) {
+
                     try {
                         sleep(500);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                     exitGame();
-                }
+
 
 
             }
@@ -143,18 +143,6 @@ public class HiScores extends JFrame {
         mainFrame.getContentPane().add(btnQuit);
 
         showUI();
-
-
-
-//        lblEunomia = new JLabel("Eunomia");
-//        lblEunomia.setFont(rFont);
-//        lblEunomia.setBounds(156, 74, 70, 15);
-//        mainFrame.getContentPane().add(lblEunomia);
-//
-//        JCheckBox chckbxRememberMe = new JCheckBox("remember me");
-//        chckbxRememberMe.setBounds(139, 364, 129, 23);
-//        mainFrame.getContentPane().add(chckbxRememberMe);
-
 
     }
 

@@ -37,6 +37,9 @@ public class SignUp extends JFrame {
     private JPasswordField pwdPassword2;
     private JComboBox comboColor;
     private DefaultListCellRenderer listRenderer;
+
+
+
     private SignUpInsert signUpInsert;
     JLabel lblSignUpMessages;
     String signUpMessages;
@@ -239,7 +242,9 @@ public class SignUp extends JFrame {
     public void exitGame() {
         mainFrame.dispatchEvent(new WindowEvent(mainFrame, WindowEvent.WINDOW_CLOSING));
     }
-
+    public SignUpInsert getSignUpInsert() {
+        return signUpInsert;
+    }
 
     public void setSignUpInsert(SignUpInsert signUpInsert) {
         this.signUpInsert = signUpInsert;
