@@ -12,12 +12,12 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 
-public class SignUp extends JFrame {
+public class SignUpView extends JFrame {
 
 
 
     private Responsive responsive;
-    private LoginCheck loginCheck;
+    private LoginModel loginCheck;
     private JFrame mainFrame;
     private JPasswordField pwdPassword1;
     private JTextField txtUsername;
@@ -40,12 +40,12 @@ public class SignUp extends JFrame {
 
 
 
-    private SignUpInsert signUpInsert;
+    private SignUpModel signUpInsert;
     JLabel lblSignUpMessages;
     String signUpMessages;
 
 
-    public SignUp(Responsive responsive, ControlFlow controlFlow) throws IOException {
+    public SignUpView(Responsive responsive, ControlFlow controlFlow) throws IOException {
         this.responsive = responsive;
         this.controlFlow = controlFlow;
         this.arcadeMedium = responsive.arcadeMedium;
@@ -228,7 +228,7 @@ public class SignUp extends JFrame {
     }
 
 
-    public void setLoginCheck(LoginCheck loginCheck) {
+    public void setLoginCheck(LoginModel loginCheck) {
         this.loginCheck = loginCheck;
     }
     public void hideUI() {
@@ -242,11 +242,11 @@ public class SignUp extends JFrame {
     public void exitGame() {
         mainFrame.dispatchEvent(new WindowEvent(mainFrame, WindowEvent.WINDOW_CLOSING));
     }
-    public SignUpInsert getSignUpInsert() {
+    public SignUpModel getSignUpInsert() {
         return signUpInsert;
     }
 
-    public void setSignUpInsert(SignUpInsert signUpInsert) {
+    public void setSignUpInsert(SignUpModel signUpInsert) {
         this.signUpInsert = signUpInsert;
     }
 

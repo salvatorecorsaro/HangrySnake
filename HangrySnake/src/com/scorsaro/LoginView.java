@@ -13,12 +13,12 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 
-public class Login extends JFrame {
+public class LoginView extends JFrame {
 
 
     private ControlFlow controlFlow;
     private Responsive responsive;
-    private LoginCheck loginCheck;
+    private LoginModel loginCheck;
     private JFrame mainFrame;
     private JPasswordField pwdPassword;
     private JTextField txtUsername;
@@ -34,7 +34,7 @@ public class Login extends JFrame {
     Font arcadeLarge;
 
 
-    public Login(Responsive responsive, ControlFlow controlFlow) throws IOException {
+    public LoginView(Responsive responsive, ControlFlow controlFlow) throws IOException {
         this.responsive = responsive;
         this.controlFlow = controlFlow;
         this.arcadeMedium = responsive.arcadeMedium;
@@ -152,7 +152,7 @@ public class Login extends JFrame {
     }
 
 
-    public void setLoginCheck(LoginCheck loginCheck) {
+    public void setLoginCheck(LoginModel loginCheck) {
         this.loginCheck = loginCheck;
     }
     public void hideUI() {

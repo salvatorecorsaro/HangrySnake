@@ -2,12 +2,12 @@ package com.scorsaro;
 import javax.swing.table.DefaultTableModel;
 import java.sql.*;
 
-public class CreateConnection {
+public class DatabaseManager {
 
 
     // "com.mysql.cj.jdbc.Driver"
 
-    private Login login;
+    private LoginView login;
 
 
 
@@ -18,7 +18,7 @@ public class CreateConnection {
     private String url = "jdbc:mysql://localhost/" + db;
     private Connection con;
 
-    public CreateConnection(Login login) {
+    public DatabaseManager(LoginView login) {
         this.login = login;
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");

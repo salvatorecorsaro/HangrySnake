@@ -5,17 +5,17 @@ import java.sql.SQLException;
 
 import static java.lang.Thread.sleep;
 
-public class LoginCheck {
+public class LoginModel {
 
     private ValidInputChecker validInputChecker;
-    private Login login;
+    private LoginView login;
 
 
     private ControlFlow controlFlow;
     private int loginAttempt;
-    CreateConnection con;
+    DatabaseManager con;
 
-    public LoginCheck(Login login, CreateConnection con, ValidInputChecker validInputChecker) {
+    public LoginModel(LoginView login, DatabaseManager con, ValidInputChecker validInputChecker) {
         this.login = login;
         this.con = con;
         this.validInputChecker = validInputChecker;

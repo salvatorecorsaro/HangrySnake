@@ -1,19 +1,17 @@
 package com.scorsaro;
 
-import java.awt.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.regex.Pattern;
 
-public class SignUpInsert {
+public class SignUpModel {
 
 
     private ControlFlow controlFlow;
-    private CreateConnection con;
+    private DatabaseManager con;
     private String pwdCompared;
     private ValidInputChecker validInputChecker;
 
-    public SignUpInsert(ControlFlow controlFlow, CreateConnection con, ValidInputChecker validInputChecker) {
+    public SignUpModel(ControlFlow controlFlow, DatabaseManager con, ValidInputChecker validInputChecker) {
         this.controlFlow = controlFlow;
         this.validInputChecker = validInputChecker;
         this.con = con;
