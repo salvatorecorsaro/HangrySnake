@@ -29,14 +29,15 @@ public class Home extends JFrame {
     Font arcadeMedium;
     Font arcadeLarge;
     private JLabel logo;
+    private String username;
 
-    public Home(Responsive responsive, int role) throws IOException {
+    public Home(Responsive responsive,String user, int role) throws IOException {
         this.responsive = responsive;
+        this.username = user;
         initUI();
     }
 
     private void initUI() throws IOException {
-
 
         var rWidth = responsive.unitWidth;
         var rHeight = responsive.unitHeight;
@@ -109,6 +110,7 @@ public class Home extends JFrame {
             public void actionPerformed(ActionEvent arg0) {
                 //TODO
 
+                System.out.println(username + "is logged in main");
 
             }
         });
@@ -123,7 +125,12 @@ public class Home extends JFrame {
         btnSettings.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
                 //TODO
-
+                showUI(false);
+                try {
+                    controlFlow.startSettings();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
 
             }
         });

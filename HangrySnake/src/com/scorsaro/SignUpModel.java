@@ -40,7 +40,7 @@ public class SignUpModel {
         writeSignUp(userToCheck, emailToCheck, colorChosen, pwdCompared);
         controlFlow.signUp.lblSignUpMessages.setText("You signed Up");
         controlFlow.signUp.hideUI();
-        controlFlow.login.showUI();
+        controlFlow.loginView.showUI();
     }
 
     public void showErrors(ArrayList<String> signUpErrors) {

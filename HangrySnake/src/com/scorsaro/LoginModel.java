@@ -8,15 +8,13 @@ import static java.lang.Thread.sleep;
 public class LoginModel {
 
     private ValidInputChecker validInputChecker;
-    private LoginView login;
-
-
+    private LoginView loginView;
     private ControlFlow controlFlow;
     private int loginAttempt;
     DatabaseManager con;
 
-    public LoginModel(LoginView login, DatabaseManager con, ValidInputChecker validInputChecker) {
-        this.login = login;
+    public LoginModel(LoginView loginView, DatabaseManager con, ValidInputChecker validInputChecker) {
+        this.loginView = loginView;
         this.con = con;
         this.validInputChecker = validInputChecker;
         loginAttempt = 3;
@@ -31,17 +29,20 @@ public class LoginModel {
                 grantAccess(usrToValidate);
             } else {
                 accessDenied();
+                loginView.txtUsername.setText("invalid  usr  or  psw");
             }
-        } else
+        } else {
             System.out.println("invalid login char");
+            loginView.txtUsername.setText("invalid  usr  or  psw");
 
+        }
     }
 
-    private void grantAccess(String usrToValidate) throws IOException {
-        System.out.println("Login");
+    private void grantAccess(String usrValidated) throws IOException {
+        System.out.println("Login" + usrValidated);
         controlFlow.startMenu(1);
-        controlFlow.user = usrToValidate;
-        login.hideUI();
+        controlFlow.setUserLogged(usrValidated);
+        loginView.hideUI();
     }
 
     private void accessDenied() {
@@ -49,18 +50,18 @@ public class LoginModel {
         loginAttempt--;
         {
             if (loginAttempt == 2)
-                login.coinPic3.setVisible(false);
+                loginView.coinPic3.setVisible(false);
             if (loginAttempt == 1)
-                login.coinPic2.setVisible(false);
+                loginView.coinPic2.setVisible(false);
             if (loginAttempt == 0) {
-                login.coinPic1.setVisible(false);
+                loginView.coinPic1.setVisible(false);
                 if (1 == 1) {
                     try {
                         sleep(500);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    login.exitGame();
+                    loginView.exitGame();
                 }
             }
 

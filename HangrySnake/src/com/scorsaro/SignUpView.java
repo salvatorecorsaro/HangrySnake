@@ -154,7 +154,7 @@ public class SignUpView extends JFrame {
         btnLogin.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
                 hideUI();
-                controlFlow.login.showUI();
+                controlFlow.loginView.showUI();
             }
         });
         btnLogin.setBounds((int)(fWidth * 0.20), (int)(fHeight * 0.8), fWidth/4, fHeight/10);

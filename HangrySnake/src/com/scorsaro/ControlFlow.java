@@ -5,31 +5,37 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 public class ControlFlow {
+
     private Responsive responsive;
-    LoginView login;
-    private DatabaseManager con;
-    private LoginModel loginCheck;
+    private LoginModel loginModel;
+    private GameFrame gameFrame;
+    String userLogged;
+    ValidInputChecker validInputChecker;
+    LoginView loginView;
+    DatabaseManager databaseManager;
+
     SignUpView signUp;
     Home home;
-    private GameFrame gameFrame;
-    String user;
-    private ValidInputChecker validInputChecker;
+
 
     public ControlFlow() throws IOException, FontFormatException, SQLException {
         responsive = new Responsive();
         validInputChecker = new ValidInputChecker();
-        login = new LoginView(responsive, this);
+        loginView = new LoginView(responsive, this);
+        userLogged = "";
 
-        con = new DatabaseManager(login);
+        databaseManager = new DatabaseManager(loginView);
 
-        loginCheck = new LoginModel(login, con, validInputChecker);
-        loginCheck.setControlFlow(this);
-        login.setLoginCheck(loginCheck);
-        //login.showUI(); //hide for testi
+        databaseManager.connectToDatabase();
+
+        loginModel = new LoginModel(loginView, databaseManager, validInputChecker);
+        loginModel.setControlFlow(this);
+        loginView.setLoginModel(loginModel);
+        loginView.showUI(); //hide for testi
         //just for testing
-        //startMenu(1);
+
         //startSettings();
-        startGame();
+       // startGame();
 
 
 
@@ -42,7 +48,7 @@ public class ControlFlow {
 
 
     public void startMenu(int role) throws IOException {
-        var home = new Home(responsive, role);
+        var home = new Home(responsive, userLogged, role);
         home.setVisible(true);
         home.setControlFlow(this);
         this.home = home;
@@ -51,8 +57,8 @@ public class ControlFlow {
     public void showHiScores() throws SQLException, IOException {
         var hiScores = new HiScores(responsive);
         hiScores.setControlFlow(this);
-        con.setHiScores(hiScores);
-        con.updateTableHiScores();
+        databaseManager.setHiScores(hiScores);
+        databaseManager.updateTableHiScores();
         hiScores.showUI();
     }
 
@@ -60,7 +66,7 @@ public class ControlFlow {
         var signUp = new SignUpView(responsive, this);
         this.signUp = signUp;
         signUp.showUI();
-        var signUpInsert = new SignUpModel(this, con, validInputChecker);
+        var signUpInsert = new SignUpModel(this, databaseManager, validInputChecker);
         signUp.setSignUpInsert(signUpInsert);
     }
 
@@ -68,4 +74,17 @@ public class ControlFlow {
         var settings = new Settings(responsive, this);
         settings.showUI();
     }
+
+    public String getUserLogged() {
+        return userLogged;
+    }
+
+    public void setUserLogged(String user) {
+        System.out.println(userLogged);
+        this.userLogged = user;
+        System.out.println(userLogged + " is ok ");
+    }
+
+
+
 }

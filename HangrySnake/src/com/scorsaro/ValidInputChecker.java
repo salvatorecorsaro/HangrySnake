@@ -7,12 +7,20 @@ public class ValidInputChecker {
     public boolean checkValidUsername(String userToCheck) {
         if (userToCheck.matches("[a-zA-Z0-9]+"))
             return true;
+        else if (userToCheck.equals(""))
+            return false;
+        else if (userToCheck.equals("username"))
+            return false;
         else
             return false;
     }
     public boolean checkValidPwd(String pwdCompared){
         if (pwdCompared.matches("[a-zA-Z0-9]+"))
             return true;
+        else if (pwdCompared.equals(""))
+            return false;
+        else if (pwdCompared.equals("password"))
+            return false;
         else
             return false;
     }

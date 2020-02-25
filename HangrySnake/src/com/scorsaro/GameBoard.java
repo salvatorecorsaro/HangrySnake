@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.sql.SQLException;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -119,10 +120,14 @@ public class GameBoard extends JPanel implements ActionListener {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        doDrawing(g);
+        try {
+            doDrawing(g);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
-    private void doDrawing(Graphics g) {
+    private void doDrawing(Graphics g) throws SQLException {
         int randomObject = 0;//(int) (Math.random() * 2);
         if(randomObject == 0)
             g.drawImage(object_1, object_x, object_y, this);
@@ -158,7 +163,11 @@ public class GameBoard extends JPanel implements ActionListener {
         }
     }
 
-    private void gameOverMenu(Graphics g) {
+    private void gameOverMenu(Graphics g) throws SQLException {
+
+        String activeUser = controlFlow.getUserLogged();
+        System.out.println("sei morto" + activeUser);
+        controlFlow.databaseManager.newGameScore(activeUser, score);
 
         String gameOver = "Game Over";
         String yourScoreIs = "your score is";

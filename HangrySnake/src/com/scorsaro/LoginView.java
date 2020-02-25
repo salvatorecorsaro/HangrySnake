@@ -18,10 +18,10 @@ public class LoginView extends JFrame {
 
     private ControlFlow controlFlow;
     private Responsive responsive;
-    private LoginModel loginCheck;
+    private LoginModel loginModel;
     private JFrame mainFrame;
-    private JPasswordField pwdPassword;
-    private JTextField txtUsername;
+    JPasswordField pwdPassword;
+    JTextField txtUsername;
     JLabel coinPic1;
     JLabel coinPic2;
     JLabel coinPic3;
@@ -68,7 +68,7 @@ public class LoginView extends JFrame {
         txtUsername.setBorder(new LineBorder(Color.gray, rHeight/3));
         txtUsername.setForeground(Color.BLUE);
         txtUsername.setBackground(Color.black);
-        txtUsername.setBounds(fWidth / 4, (int)(fHeight * 0.29), fWidth/2, fHeight/10);
+        txtUsername.setBounds((int)(fWidth * 0.20), (int)(fHeight * 0.29), (int)(fWidth * 0.6), fHeight/10);
         mainFrame.getContentPane().add(txtUsername);
 
         pwdPassword = new JPasswordField();
@@ -78,7 +78,7 @@ public class LoginView extends JFrame {
         pwdPassword.setBorder(new LineBorder(Color.gray, rHeight/3));
         pwdPassword.setForeground(Color.red);
         pwdPassword.setBackground(Color.black);
-        pwdPassword.setBounds(fWidth / 4, (int)(fHeight * 0.4), fWidth/2, fHeight/10);
+        pwdPassword.setBounds((int)(fWidth * 0.20), (int)(fHeight * 0.4), (int)(fWidth * 0.6), fHeight/10);
         mainFrame.getContentPane().add(pwdPassword);
 
         btnLogin = new JButton("Login");
@@ -90,7 +90,7 @@ public class LoginView extends JFrame {
             public void actionPerformed(ActionEvent arg0) {
                 String pwdToValidate = String.valueOf(pwdPassword.getPassword());
                 try {
-                    loginCheck.validateLogin(txtUsername.getText().toLowerCase(), pwdToValidate);
+                    loginModel.validateLogin(txtUsername.getText().toLowerCase(), pwdToValidate);
                 } catch (SQLException | IOException e) {
                     e.printStackTrace();
                 }
@@ -136,25 +136,11 @@ public class LoginView extends JFrame {
         mainFrame.add(logo);
         logo.setBounds((int)(fWidth * 0.165), (int)(fHeight * 0.01), (int)(fWidth/1.5) , fHeight/5);
 
-        //showUI();
-
-
-//        lblEunomia = new JLabel("Eunomia");
-//        lblEunomia.setFont(rFont);
-//        lblEunomia.setBounds(156, 74, 70, 15);
-//        mainFrame.getContentPane().add(lblEunomia);
-//
-//        JCheckBox chckbxRememberMe = new JCheckBox("remember me");
-//        chckbxRememberMe.setBounds(139, 364, 129, 23);
-//        mainFrame.getContentPane().add(chckbxRememberMe);
-
 
     }
 
 
-    public void setLoginCheck(LoginModel loginCheck) {
-        this.loginCheck = loginCheck;
-    }
+
     public void hideUI() {
         mainFrame.setVisible(false);
     }
@@ -166,4 +152,9 @@ public class LoginView extends JFrame {
     public void exitGame() {
         mainFrame.dispatchEvent(new WindowEvent(mainFrame, WindowEvent.WINDOW_CLOSING));
     }
+
+    public void setLoginModel(LoginModel loginModel) {
+        this.loginModel = loginModel;
+    }
+
 }
