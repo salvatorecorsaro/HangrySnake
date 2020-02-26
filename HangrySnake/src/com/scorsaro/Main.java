@@ -10,11 +10,7 @@ public class Main {
 
 //call the class ControlFlow that start the game
 
-    var start = new ControlFlow();
-
-
-
-
+        var start = new ControlFlow();
 
 
     }

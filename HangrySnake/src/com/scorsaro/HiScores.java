@@ -12,8 +12,6 @@ import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.sql.SQLException;
-import java.sql.Statement;
 
 import static java.lang.Thread.sleep;
 
@@ -21,15 +19,13 @@ import static java.lang.Thread.sleep;
 public class HiScores extends JFrame {
 
 
-    private Responsive responsive;
-
-
-    private ControlFlow controlFlow;
-    private JFrame mainFrame;
-    private JButton btnQuit;
     JTable tableHiScores;
     Font arcadeMedium;
     Font arcadeLarge;
+    private Responsive responsive;
+    private ControlFlow controlFlow;
+    private JFrame mainFrame;
+    private JButton btnQuit;
     private JButton btnMenu;
     private JLabel logo;
 
@@ -106,7 +102,7 @@ public class HiScores extends JFrame {
         btnMenu.setBounds((int) (fWidth * 0.2), (int) (fHeight * 0.765), (int) (fWidth * 0.6), fHeight / 15);
         mainFrame.getContentPane().add(btnMenu);
 
-       //Quit button section
+        //Quit button section
 
         btnQuit = new JButton("QUIT");
         btnQuit.setFont(arcadeMedium);

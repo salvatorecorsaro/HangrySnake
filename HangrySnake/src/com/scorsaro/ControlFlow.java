@@ -6,16 +6,18 @@ import java.sql.SQLException;
 
 public class ControlFlow {
 
-    private Responsive responsive;
-    private LoginModel loginModel;
-    private GameFrame gameFrame;
+
+    public int gameSpeed;
+    SoundManager soundManager;
     String userLogged;
     ValidInputChecker validInputChecker;
     LoginView loginView;
     DatabaseManager databaseManager;
-
     SignUpView signUp;
     Home home;
+    private Responsive responsive;
+    private LoginModel loginModel;
+    private GameFrame gameFrame;
 
 
     public ControlFlow() throws IOException, FontFormatException, SQLException {
@@ -25,20 +27,19 @@ public class ControlFlow {
         responsive = new Responsive();
         validInputChecker = new ValidInputChecker();
         userLogged = "";
+        gameSpeed = 100;
 
         // starting the app through the login
-
+        soundManager = new SoundManager();
         loginView = new LoginView(responsive, this);
         databaseManager = new DatabaseManager(loginView);
         databaseManager.connectToDatabase();
+        databaseManager.setAdmin();
+
         loginModel = new LoginModel(loginView, databaseManager, validInputChecker);
         loginModel.setControlFlow(this);
         loginView.setLoginModel(loginModel);
         loginView.showUI();
-
-
-
-
 
 
     }
@@ -53,6 +54,7 @@ public class ControlFlow {
     /**
      * Start the Main Menu after an acceptedLogin. It uses the role taken from the login in order
      * to verify if it has to generate admin privileges
+     *
      * @param role
      * @throws IOException
      */
@@ -65,6 +67,7 @@ public class ControlFlow {
 
     /**
      * Start the HighScores section of the MainMenu and charge the score data from the db
+     *
      * @throws SQLException
      * @throws IOException
      */
@@ -80,6 +83,7 @@ public class ControlFlow {
     /**
      * Start the SignUp section from the Login page. It starts the visual part (SignUpView)
      * and the verification/calculation part(SignUpModel)
+     *
      * @throws IOException
      */
     public void startSignUp() throws IOException {
@@ -92,10 +96,11 @@ public class ControlFlow {
 
     /**
      * Start the Setting part of the MainMenu
+     *
      * @throws IOException
      */
 
-    public void startSettings() throws IOException {
+    public void startSettings() throws IOException, SQLException {
         var settings = new Settings(responsive, this);
         settings.showUI();
     }
@@ -107,6 +112,7 @@ public class ControlFlow {
 
     /**
      * Store the Username of the active user that has logged in.
+     *
      * @param user
      */
     public void setUserLogged(String user) {
@@ -114,7 +120,6 @@ public class ControlFlow {
         this.userLogged = user;
         System.out.println(userLogged + " is ok ");
     }
-
 
 
 }

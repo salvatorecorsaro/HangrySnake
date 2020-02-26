@@ -135,10 +135,7 @@ public class SignUpModel {
     }
 
     public boolean checkColorChosen(String colorChosen) {
-        if (colorChosen.equals("Chose a color"))
-            return false;
-        else
-            return true;
+        return !colorChosen.equals("Chose a color");
     }
 
 }

@@ -7,24 +7,27 @@ import static java.lang.Thread.sleep;
 
 public class LoginModel {
 
+    DatabaseManager con;
     private ValidInputChecker validInputChecker;
     private LoginView loginView;
     private ControlFlow controlFlow;
     private int loginAttempt;
-    DatabaseManager con;
 
     // prepare the environment
 
     public LoginModel(LoginView loginView, DatabaseManager con, ValidInputChecker validInputChecker) {
+
         this.loginView = loginView;
         this.con = con;
         this.validInputChecker = validInputChecker;
         loginAttempt = 3;
+
     }
 
     /**
      * Extract data from Login UI and process them using the validateInputClass and comparing
      * them with those stored into the database
+     *
      * @param usrToValidate
      * @param pswToValidate
      * @throws SQLException
@@ -50,6 +53,7 @@ public class LoginModel {
 
     /**
      * Manage the positive result of the Login validation process
+     *
      * @param usrValidated
      * @throws IOException
      */
@@ -58,6 +62,8 @@ public class LoginModel {
         controlFlow.startMenu(1);
         controlFlow.setUserLogged(usrValidated);
         loginView.hideUI();
+        controlFlow.soundManager.stopSound(controlFlow.soundManager.intro);
+        controlFlow.soundManager.startSound(controlFlow.soundManager.menu);
     }
 
 
@@ -90,7 +96,6 @@ public class LoginModel {
     public void setControlFlow(ControlFlow controlFlow) {
         this.controlFlow = controlFlow;
     }
-
 
 
 }

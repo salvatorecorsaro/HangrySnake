@@ -17,7 +17,13 @@ import java.sql.SQLException;
 public class SignUpView extends JFrame {
 
 
-
+    JLabel coinPic1;
+    JLabel coinPic2;
+    JLabel coinPic3;
+    Font arcadeMedium;
+    Font arcadeLarge;
+    JLabel lblSignUpMessages;
+    String signUpMessages;
     private Responsive responsive;
     private LoginModel loginCheck;
     private JFrame mainFrame;
@@ -25,26 +31,16 @@ public class SignUpView extends JFrame {
     private JTextField txtUsername;
     private JTextField txtEmail;
     private JLabel lblEunomia;
-    JLabel coinPic1;
-    JLabel coinPic2;
-    JLabel coinPic3;
     private JLabel logo;
     private JLabel snake;
     private JLabel avocado;
     private JButton btnLogin;
     private JButton btnSignUp;
-    Font arcadeMedium;
-    Font arcadeLarge;
     private ControlFlow controlFlow;
     private JPasswordField pwdPassword2;
     private JComboBox comboColor;
     private DefaultListCellRenderer listRenderer;
-
-
-
     private SignUpModel signUpInsert;
-    JLabel lblSignUpMessages;
-    String signUpMessages;
     private int focusCounterUsername;
     private int focusCounterPwd1;
     private int focusCounterPwd2;
@@ -82,10 +78,10 @@ public class SignUpView extends JFrame {
         txtUsername.setFont(arcadeMedium);
         txtUsername.setHorizontalAlignment(JTextField.CENTER);
         txtUsername.setText("Your Username");
-        txtUsername.setBorder(new LineBorder(Color.gray, rHeight/3));
+        txtUsername.setBorder(new LineBorder(Color.gray, rHeight / 3));
         txtUsername.setForeground(Color.BLUE);
         txtUsername.setBackground(Color.black);
-        txtUsername.setBounds(fWidth / 4, (int)(fHeight * 0.21), fWidth/2, fHeight/12);
+        txtUsername.setBounds(fWidth / 4, (int) (fHeight * 0.21), fWidth / 2, fHeight / 12);
         txtUsername.getDocument().addDocumentListener(new DocumentListener() {
 
             @Override
@@ -115,7 +111,7 @@ public class SignUpView extends JFrame {
 
             @Override
             public void focusLost(FocusEvent focusEvent) {
-                if (txtUsername.getText().equals("")){
+                if (txtUsername.getText().equals("")) {
                     txtUsername.setText("your  Username");
                 }
             }
@@ -127,10 +123,10 @@ public class SignUpView extends JFrame {
         txtEmail.setFont(arcadeMedium);
         txtEmail.setHorizontalAlignment(JTextField.CENTER);
         txtEmail.setText("Your email");
-        txtEmail.setBorder(new LineBorder(Color.gray, rHeight/3));
+        txtEmail.setBorder(new LineBorder(Color.gray, rHeight / 3));
         txtEmail.setForeground(Color.yellow);
         txtEmail.setBackground(Color.black);
-        txtEmail.setBounds(fWidth / 4, (int)(fHeight * 0.31), fWidth/2, fHeight/12);
+        txtEmail.setBounds(fWidth / 4, (int) (fHeight * 0.31), fWidth / 2, fHeight / 12);
         txtEmail.getDocument().addDocumentListener(new DocumentListener() {
 
             @Override
@@ -160,7 +156,7 @@ public class SignUpView extends JFrame {
 
             @Override
             public void focusLost(FocusEvent focusEvent) {
-                if (txtEmail.getText().equals("")){
+                if (txtEmail.getText().equals("")) {
                     txtEmail.setText("your  email");
                 }
             }
@@ -179,7 +175,7 @@ public class SignUpView extends JFrame {
         listRenderer.setHorizontalAlignment(DefaultListCellRenderer.CENTER); // center-aligned items
         listRenderer.setForeground(Color.yellow);
         comboColor.setRenderer(listRenderer);
-        comboColor.setBounds((int)(fWidth * 0.25 ), (int)(fHeight * 0.41), (int)(fWidth * 0.50 ), fHeight/12);
+        comboColor.setBounds((int) (fWidth * 0.25), (int) (fHeight * 0.41), (int) (fWidth * 0.50), fHeight / 12);
         mainFrame.getContentPane().add(comboColor);
         JComboBox.KeySelectionManager manager =
                 new JComboBox.KeySelectionManager() {
@@ -195,10 +191,10 @@ public class SignUpView extends JFrame {
         pwdPassword1.setFont(arcadeMedium);
         pwdPassword1.setHorizontalAlignment(JPasswordField.CENTER);
         pwdPassword1.setText("Password");
-        pwdPassword1.setBorder(new LineBorder(Color.gray, rHeight/3));
+        pwdPassword1.setBorder(new LineBorder(Color.gray, rHeight / 3));
         pwdPassword1.setForeground(Color.gray);
         pwdPassword1.setBackground(Color.black);
-        pwdPassword1.setBounds((int)(fWidth * 0.16 ), (int)(fHeight * 0.51), (int)(fWidth * 0.33 ), fHeight/12);;
+        pwdPassword1.setBounds((int) (fWidth * 0.16), (int) (fHeight * 0.51), (int) (fWidth * 0.33), fHeight / 12);
         pwdPassword1.getDocument().addDocumentListener(new DocumentListener() {
 
             @Override
@@ -229,7 +225,7 @@ public class SignUpView extends JFrame {
             @Override
             public void focusLost(FocusEvent focusEvent) {
                 String pwdStatus = String.valueOf(pwdPassword1.getPassword());
-                if (pwdStatus.equals("")){
+                if (pwdStatus.equals("")) {
                     pwdPassword1.setText("your password");
                 }
             }
@@ -240,10 +236,10 @@ public class SignUpView extends JFrame {
         pwdPassword2.setFont(arcadeMedium);
         pwdPassword2.setHorizontalAlignment(JPasswordField.CENTER);
         pwdPassword2.setText("Password");
-        pwdPassword2.setBorder(new LineBorder(Color.gray, rHeight/3));
+        pwdPassword2.setBorder(new LineBorder(Color.gray, rHeight / 3));
         pwdPassword2.setForeground(Color.gray);
         pwdPassword2.setBackground(Color.black);
-        pwdPassword2.setBounds((int)(fWidth * 0.51 ), (int)(fHeight * 0.51), (int)(fWidth * 0.33 ), fHeight/12);
+        pwdPassword2.setBounds((int) (fWidth * 0.51), (int) (fHeight * 0.51), (int) (fWidth * 0.33), fHeight / 12);
         pwdPassword2.getDocument().addDocumentListener(new DocumentListener() {
 
             @Override
@@ -274,7 +270,7 @@ public class SignUpView extends JFrame {
             @Override
             public void focusLost(FocusEvent focusEvent) {
                 String pwdStatus = String.valueOf(pwdPassword2.getPassword());
-                if (pwdStatus.equals("")){
+                if (pwdStatus.equals("")) {
                     pwdPassword2.setText("your password");
                 }
             }
@@ -288,11 +284,11 @@ public class SignUpView extends JFrame {
         //lblSignUpMessages.setBorder(new LineBorder(Color.gray, rHeight/3));
         lblSignUpMessages.setForeground(Color.gray);
         lblSignUpMessages.setBackground(Color.black);
-        lblSignUpMessages.setBounds((int)(fWidth * 0.16 ), (int)(fHeight * 0.61), (int)(fWidth * 0.68 ), fHeight/12);
+        lblSignUpMessages.setBounds((int) (fWidth * 0.16), (int) (fHeight * 0.61), (int) (fWidth * 0.68), fHeight / 12);
         mainFrame.getContentPane().add(lblSignUpMessages);
 
         btnLogin = new JButton("Login");
-        btnLogin.setBorder(new LineBorder(Color.GREEN, rHeight/2));
+        btnLogin.setBorder(new LineBorder(Color.GREEN, rHeight / 2));
         btnLogin.setForeground(Color.yellow);
         btnLogin.setBackground(Color.black);
         btnLogin.setFont(arcadeMedium);
@@ -302,11 +298,11 @@ public class SignUpView extends JFrame {
                 controlFlow.loginView.showUI();
             }
         });
-        btnLogin.setBounds((int)(fWidth * 0.20), (int)(fHeight * 0.8), fWidth/4, fHeight/10);
+        btnLogin.setBounds((int) (fWidth * 0.20), (int) (fHeight * 0.8), fWidth / 4, fHeight / 10);
         mainFrame.getContentPane().add(btnLogin);
 
         btnSignUp = new JButton("Sign up");
-        btnSignUp.setBorder(new LineBorder(Color.yellow, rHeight/2));
+        btnSignUp.setBorder(new LineBorder(Color.yellow, rHeight / 2));
         btnSignUp.setForeground(Color.green);
         btnSignUp.setBackground(Color.black);
         btnSignUp.setFont(arcadeMedium);
@@ -316,24 +312,22 @@ public class SignUpView extends JFrame {
                 String emailToCheck = txtEmail.getText();
                 String pwdToCompare = String.valueOf(pwdPassword1.getPassword());
                 String pwdToCompare2 = String.valueOf(pwdPassword2.getPassword());
-                String chosenColor = (String)comboColor.getSelectedItem();
+                String chosenColor = (String) comboColor.getSelectedItem();
                 try {
-                    signUpInsert.SignUpCheck(inputUsername, pwdToCompare, pwdToCompare2, emailToCheck, chosenColor );
+                    signUpInsert.SignUpCheck(inputUsername, pwdToCompare, pwdToCompare2, emailToCheck, chosenColor);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
             }
         });
-        btnSignUp.setBounds((int)(fWidth * 0.55), (int)(fHeight * 0.8), fWidth/4, fHeight/10);
+        btnSignUp.setBounds((int) (fWidth * 0.55), (int) (fHeight * 0.8), fWidth / 4, fHeight / 10);
         mainFrame.getContentPane().add(btnSignUp);
 
 
-
-
         BufferedImage logoSrc = ImageIO.read(new File("pics/hangrySnake.png"));
-        logo = new JLabel(new ImageIcon(logoSrc.getScaledInstance((int)(fWidth/1.8), fHeight/7, Image.SCALE_FAST)));
+        logo = new JLabel(new ImageIcon(logoSrc.getScaledInstance((int) (fWidth / 1.8), fHeight / 7, Image.SCALE_FAST)));
         mainFrame.add(logo);
-        logo.setBounds((int)(fWidth * 0.225), (int)(fHeight * 0.01), (int)(fWidth/1.8) , fHeight/7);
+        logo.setBounds((int) (fWidth * 0.225), (int) (fHeight * 0.01), (int) (fWidth / 1.8), fHeight / 7);
 
     }
 
@@ -342,30 +336,23 @@ public class SignUpView extends JFrame {
         System.out.println(signUpCode);
         if (signUpCode == 1) {
             txtUsername.setForeground(Color.red);
-        }
-        else if (signUpCode == 2) {
+        } else if (signUpCode == 2) {
             txtUsername.setForeground(Color.green);
-        }
-        else if (signUpCode == 3) {
+        } else if (signUpCode == 3) {
             txtEmail.setForeground(Color.red);
-        }
-        else if (signUpCode == 4) {
+        } else if (signUpCode == 4) {
             txtEmail.setForeground(Color.green);
-        }else if (signUpCode == 5) {
+        } else if (signUpCode == 5) {
             pwdPassword1.setForeground(Color.red);
             pwdPassword2.setForeground(Color.red);
-        }
-        else if (signUpCode == 6) {
+        } else if (signUpCode == 6) {
             pwdPassword1.setForeground(Color.green);
             pwdPassword2.setForeground(Color.green);
-        }
-        else if (signUpCode == 7){
+        } else if (signUpCode == 7) {
             comboColor.setForeground(Color.red);
-        }
-        else if (signUpCode == 8){
+        } else if (signUpCode == 8) {
             comboColor.setForeground(Color.green);
-        }
-        else {
+        } else {
             System.out.println("you may sign up");
 
         }
@@ -377,10 +364,9 @@ public class SignUpView extends JFrame {
         String pwdStatus2 = String.valueOf(pwdPassword2.getPassword());
         if ((txtUsername.getText().equals("") || (pwdStatus1.equals(""))
                 || (pwdStatus2.equals("")) || focusCounterUsername == 0 || focusCounterPwd1 == 0 ||
-                focusCounterPwd2 == 0|| focusCounterEmail == 0)) {
+                focusCounterPwd2 == 0 || focusCounterEmail == 0)) {
             btnSignUp.setEnabled(false);
-        }
-        else
+        } else
             btnSignUp.setEnabled((true));
 
     }
@@ -388,6 +374,7 @@ public class SignUpView extends JFrame {
     public void setLoginCheck(LoginModel loginCheck) {
         this.loginCheck = loginCheck;
     }
+
     public void hideUI() {
         mainFrame.setVisible(false);
     }
@@ -399,6 +386,7 @@ public class SignUpView extends JFrame {
     public void exitGame() {
         mainFrame.dispatchEvent(new WindowEvent(mainFrame, WindowEvent.WINDOW_CLOSING));
     }
+
     public SignUpModel getSignUpInsert() {
         return signUpInsert;
     }

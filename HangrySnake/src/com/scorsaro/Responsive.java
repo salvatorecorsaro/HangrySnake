@@ -3,7 +3,6 @@ package com.scorsaro;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 
 public class Responsive {
 
@@ -24,6 +23,7 @@ public class Responsive {
 
     /**
      * Calculate responsive screen units
+     *
      * @throws IOException
      * @throws FontFormatException
      */
@@ -34,22 +34,23 @@ public class Responsive {
         unitHeight = (int) screenHeight / 100;
         unitWidth = (int) screenWidth / 100;
         setArcadeFont();
-        responsiveFont = new Font(Font.SANS_SERIF, Font.PLAIN, (int)screenHeight/55);
+        responsiveFont = new Font(Font.SANS_SERIF, Font.PLAIN, (int) screenHeight / 55);
     }
 
 
     /**
      * Calculate a responsive personalized font
+     *
      * @throws FontFormatException
      * @throws IOException
      */
     private void setArcadeFont() throws FontFormatException, IOException {
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-        arcadeSmall = Font.createFont(Font.TRUETYPE_FONT, new File("fonts/arcade.TTF")).deriveFont(screenHeight/45);
+        arcadeSmall = Font.createFont(Font.TRUETYPE_FONT, new File("fonts/arcade.TTF")).deriveFont(screenHeight / 45);
         ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("fonts/arcade.TTF")));
-        arcadeMedium = Font.createFont(Font.TRUETYPE_FONT, new File("fonts/arcade.TTF")).deriveFont(screenHeight/35);
+        arcadeMedium = Font.createFont(Font.TRUETYPE_FONT, new File("fonts/arcade.TTF")).deriveFont(screenHeight / 35);
         ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("fonts/arcade.TTF")));
-        arcadeLarge = Font.createFont(Font.TRUETYPE_FONT, new File("fonts/arcade.TTF")).deriveFont(screenHeight/20);
+        arcadeLarge = Font.createFont(Font.TRUETYPE_FONT, new File("fonts/arcade.TTF")).deriveFont(screenHeight / 20);
         ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("fonts/arcade.TTF")));
 
     }

@@ -18,7 +18,6 @@ public class DatabaseManager {
     private HiScores hiScores;
 
 
-
     private String db = "";
     private String user = "";
     private String pwd = "";
@@ -52,6 +51,7 @@ public class DatabaseManager {
 
     /**
      * Method used to compare two different data in two different column of the database
+     *
      * @param what
      * @param table
      * @param column
@@ -73,14 +73,12 @@ public class DatabaseManager {
         }
         stmt.close();
         rs.close();
-        if (counter > 0)
-            return true;
-        else
-            return false;
+        return counter > 0;
     }
 
     /**
      * Method used to search in a database
+     *
      * @param what
      * @param table
      * @param column
@@ -99,21 +97,18 @@ public class DatabaseManager {
         }
         stmt.close();
         rs.close();
-        if (counter > 0)
-            return true;
-        else
-            return false;
+        return counter > 0;
     }
 
     /**
      * Method used to write new data on a database
+     *
      * @param usr
      * @param pwd
      * @param email
      * @param color
      * @throws SQLException
      */
-
     public void insertData(String usr, String pwd, String email, String color) throws SQLException {
         Statement stmt = con.createStatement();
         System.out.println("insert into users values ( default ,'" + usr + "' , '" + pwd + "' , '" + email + "', '" + color + "', 1)");
@@ -126,14 +121,22 @@ public class DatabaseManager {
 
     /**
      * Method to update data in the database
+     *
      * @param newValue
      * @param oldValue
      * @throws SQLException
      */
-
     public void updateData(String newValue, String oldValue) throws SQLException {
         Statement stmt = con.createStatement();
-        stmt.executeUpdate("update users set usr = " + newValue + "where usr = " + oldValue + ";");
+        stmt.executeUpdate("update users set usr = '" + newValue + "' where usr = '" + oldValue + "';");
+        stmt.close();
+
+    }
+
+
+    public void deleteDataHiScores() throws SQLException {
+        Statement stmt = con.createStatement();
+        stmt.executeUpdate("delete from games");
         stmt.close();
 
     }
@@ -141,6 +144,7 @@ public class DatabaseManager {
 
     /**
      * Method the search the database and update the Highscore table
+     *
      * @throws SQLException
      */
 
@@ -154,10 +158,12 @@ public class DatabaseManager {
             tableModel.addRow(new Object[]{usr, highScore});
         }
         stmt.close();
+
     }
 
     /**
      * Method that store the results of the game (score and usr_id)
+     *
      * @param activeUser
      * @param score
      * @throws SQLException
@@ -175,6 +181,7 @@ public class DatabaseManager {
 
     /**
      * Method that search the usr_id of the active user
+     *
      * @param activeUser
      * @return
      * @throws SQLException
@@ -191,6 +198,26 @@ public class DatabaseManager {
         stmt.close();
         rs.close();
         return user_id;
+    }
+
+    /**
+     * method that return the role based on the username
+     *
+     * @param activeUser
+     * @return
+     * @throws SQLException
+     */
+    public int searchRole(String activeUser) throws SQLException {
+        int role = 0;
+        Statement stmt = con.createStatement();
+        ResultSet rs = stmt.executeQuery
+                ("select role from users where usr = '" + activeUser + "'");
+        while (rs.next()) {
+            role = rs.getInt("role");
+        }
+        stmt.close();
+        rs.close();
+        return role;
     }
 
 
@@ -249,6 +276,19 @@ public class DatabaseManager {
 
     public void setHiScores(HiScores hiScores) {
         this.hiScores = hiScores;
+    }
+
+    public void setAdmin() throws SQLException {
+        Statement stmt = con.createStatement();
+
+        stmt.execute
+                ("replace into users values ( default ,'admin' , 'admin' , 'admin@gmail.com', 'green', 0)");
+        stmt.close();
+        newGameScore("admin", 1000);
+        newGameScore("admin", 1800);
+        newGameScore("admin", 1500);
+
+
     }
 
 }

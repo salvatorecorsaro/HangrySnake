@@ -18,6 +18,9 @@ import static java.lang.Thread.sleep;
 public class Home extends JFrame {
 
 
+    Font arcadeMedium;
+    Font arcadeLarge;
+    int role;
     private Responsive responsive;
     private ControlFlow controlFlow;
     private JFrame mainFrame;
@@ -26,19 +29,19 @@ public class Home extends JFrame {
     private JButton btnSettings;
     private JButton btnQuit;
     private JButton btnMultiplayer;
-    Font arcadeMedium;
-    Font arcadeLarge;
     private JLabel logo;
     private String username;
 
-    public Home(Responsive responsive,String user, int role) throws IOException {
+    public Home(Responsive responsive, String user, int role) throws IOException {
         this.responsive = responsive;
         this.username = user;
+        this.role = role;
         initUI();
     }
 
     /**
      * Set the UI Frame of the MainMenu( with responsive width and height and fonts)
+     *
      * @throws IOException
      */
     private void initUI() throws IOException {
@@ -132,7 +135,7 @@ public class Home extends JFrame {
                 showUI(false);
                 try {
                     controlFlow.startSettings();
-                } catch (IOException e) {
+                } catch (IOException | SQLException e) {
                     e.printStackTrace();
                 }
             }
@@ -174,14 +177,17 @@ public class Home extends JFrame {
 
     /**
      * method that set the visibility of the UI
+     *
      * @param value
      */
     public void showUI(boolean value) {
         mainFrame.setVisible(value);
     }
+
     public void exitGame() {
         mainFrame.dispatchEvent(new WindowEvent(mainFrame, WindowEvent.WINDOW_CLOSING));
     }
+
     public void setControlFlow(ControlFlow controlFlow) {
         this.controlFlow = controlFlow;
     }

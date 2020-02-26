@@ -1,15 +1,16 @@
 package com.scorsaro;
 
-import javax.swing.JFrame;
+import javax.swing.*;
 
 public class GameFrame extends JFrame {
 
 
-    private Responsive responsive;
     int frameWidth;
     int frameHeight;
     JFrame mainFrame;
+    private Responsive responsive;
     private ControlFlow controlFlow;
+
     public GameFrame(Responsive responsive, ControlFlow controlFlow) {
         this.responsive = responsive;
         this.controlFlow = controlFlow;
@@ -20,6 +21,8 @@ public class GameFrame extends JFrame {
      * Start the game frame
      */
     private void initUI() {
+        controlFlow.soundManager.stopSound(controlFlow.soundManager.menu);
+        controlFlow.soundManager.loopSound(controlFlow.soundManager.game);
         frameWidth = 40 * responsive.unitWidth;
         frameHeight = 40 * responsive.unitWidth;
         mainFrame = new JFrame("Game");

@@ -1,36 +1,28 @@
 package com.scorsaro;
 
-import java.awt.Color;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.Toolkit;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.sql.SQLException;
-import javax.swing.ImageIcon;
-import javax.swing.JPanel;
-import javax.swing.Timer;
 
 public class GameBoard extends JPanel implements ActionListener {
 
 
+    private final int RAND_POS = 38;
+    private final Responsive responsive;
+    int score;
     private int gameUnit;
     private int boardArea;
-    private final int RAND_POS = 38;
-    private int speed = 120;
-
-    private int x[];
-    private int y[];
-    private final Responsive responsive;
+    private int speed;
+    private int[] x;
+    private int[] y;
     private GameFrame gameFrame;
-
     private int snakeUnit;
     private int object_x;
     private int object_y;
-
     private boolean leftDirection = false;
     private boolean rightDirection = true;
     private boolean upDirection = false;
@@ -42,18 +34,20 @@ public class GameBoard extends JPanel implements ActionListener {
     private Image object_1;
     private Image head;
     private int gameCoords;
-    int score;
     private String actualScore;
     private FontMetrics metrLarge;
     private FontMetrics metrMedium;
     private FontMetrics metrSmall;
     private Image tail;
+    private Image backgroundImg;
 
     public GameBoard(Responsive responsive, GameFrame gameFrame, ControlFlow controlFlow) {
         this.responsive = responsive;
         this.gameFrame = gameFrame;
         this.controlFlow = controlFlow;
+        speed = controlFlow.gameSpeed;
         initBoard();
+
     }
 
 
@@ -75,13 +69,24 @@ public class GameBoard extends JPanel implements ActionListener {
      */
     private void loadImages() {
 
+        loadTomato();
+
+        loadSnakeImg();
+
+        loadBackGround();
+    }
+
+    private void loadBackGround() {
+        ImageIcon bkg = new ImageIcon("pics/blueGrass.png");
+        Image imagebkg = bkg.getImage();
+        backgroundImg = imagebkg.getScaledInstance(gameFrame.frameWidth, gameFrame.frameHeight, Image.SCALE_SMOOTH);
+    }
+
+    private void loadSnakeImg() {
         ImageIcon iid = new ImageIcon("pics/SnakeBody.png");
         Image imaged = iid.getImage();
         ball = imaged.getScaledInstance(gameUnit, gameUnit, Image.SCALE_SMOOTH);
 
-        ImageIcon iia = new ImageIcon("pics/tomato.png");
-        Image imagea = iia.getImage();
-        object_1 = imagea.getScaledInstance(gameUnit, gameUnit, Image.SCALE_SMOOTH);
 
         ImageIcon iih = new ImageIcon("pics/SnakeHead.png");
         Image imageh = iih.getImage();
@@ -92,8 +97,16 @@ public class GameBoard extends JPanel implements ActionListener {
         tail = imaget.getScaledInstance(gameUnit, gameUnit, Image.SCALE_SMOOTH);
     }
 
+
+    private void loadTomato() {
+        ImageIcon iia = new ImageIcon("pics/tomato2.png");
+        Image imagea = iia.getImage();
+        object_1 = imagea.getScaledInstance(gameUnit, gameUnit, Image.SCALE_SMOOTH);
+    }
+
+
     /**
-     *Set the starting position of the player and the object
+     * Set the starting position of the player and the object
      */
     private void initGame() {
         boardArea = gameFrame.frameWidth * gameFrame.frameHeight;
@@ -132,28 +145,28 @@ public class GameBoard extends JPanel implements ActionListener {
 
     /**
      * Method the draws the graphics
+     *
      * @param g
      * @throws SQLException
      */
     private void doDrawing(Graphics g) throws SQLException {
 
+        g.drawImage(backgroundImg, 0, 0, this);
         g.drawImage(object_1, object_x, object_y, this);
         actualScore = "" + score;
         metrSmall = getFontMetrics(responsive.arcadeSmall);
         g.setColor(Color.white);
         g.setFont(responsive.arcadeSmall);
-        g.drawString(actualScore, (int)(gameFrame.frameWidth / 1.25), (int)(gameFrame.frameHeight * 0.05));
+        g.drawString(actualScore, (int) (gameFrame.frameWidth / 1.25), (int) (gameFrame.frameHeight * 0.05));
 
         if (inGame) {
 
             for (int z = 0; z < snakeUnit; z++) {
                 if (z == 0) {
                     g.drawImage(head, x[z], y[z], this);
-                }
-                else if (z == snakeUnit - 1 ) {
+                } else if (z == snakeUnit - 1) {
                     g.drawImage(tail, x[z], y[z], this);
-                }
-                else {
+                } else {
                     g.drawImage(ball, x[z], y[z], this);
                 }
             }
@@ -168,6 +181,7 @@ public class GameBoard extends JPanel implements ActionListener {
 
     /**
      * Method that shows the game over menu with different options
+     *
      * @param g
      * @throws SQLException
      */
@@ -219,6 +233,7 @@ public class GameBoard extends JPanel implements ActionListener {
                     speed -= 4;
                 score += 100;
                 locateObject();
+                controlFlow.soundManager.startSound(controlFlow.soundManager.impact);
             }
         }
 
@@ -228,7 +243,7 @@ public class GameBoard extends JPanel implements ActionListener {
     /**
      * Method that control the "movement" calculating the position of the player for each "piece"of the snake
      */
-     void move() {
+    void move() {
 
         for (int i = snakeUnit; i > 0; i--) {
             x[i] = x[(i - 1)];
@@ -252,6 +267,9 @@ public class GameBoard extends JPanel implements ActionListener {
         }
     }
 
+    /**
+     * each update check if the player had a collision with a border
+     */
     private void checkBorderCollision() {
 
         for (int z = snakeUnit; z > 0; z--) {
@@ -269,7 +287,7 @@ public class GameBoard extends JPanel implements ActionListener {
             inGame = false;
         }
 
-        if (x[0] >= gameFrame.frameWidth ) {
+        if (x[0] >= gameFrame.frameWidth) {
             inGame = false;
         }
 
@@ -286,7 +304,8 @@ public class GameBoard extends JPanel implements ActionListener {
      * Calculate the random position of the object (ex: "tomato") based on the frame width and height
      */
     private void locateObject() {
-        System.out.println("game unit is " + gameUnit);
+
+        loadTomato();
 
         int r = (int) (Math.random() * RAND_POS);
         object_x = ((r * gameUnit));
@@ -294,8 +313,6 @@ public class GameBoard extends JPanel implements ActionListener {
         r = (int) (Math.random() * RAND_POS);
         object_y = ((r * gameUnit));
 
-        System.out.println(object_x);
-        System.out.println(object_y);
     }
 
     @Override
@@ -343,6 +360,7 @@ public class GameBoard extends JPanel implements ActionListener {
 
             if ((key == KeyEvent.VK_SPACE) && (!inGame)) {
                 inGame = true;
+                speed = controlFlow.gameSpeed;
                 initBoard();
 
             }
@@ -350,6 +368,8 @@ public class GameBoard extends JPanel implements ActionListener {
             if ((key == KeyEvent.VK_ESCAPE) && (!inGame)) {
                 controlFlow.home.showUI(true);
                 gameFrame.showUI(false);
+                controlFlow.soundManager.stopSound(controlFlow.soundManager.game);
+                controlFlow.soundManager.startSound(controlFlow.soundManager.menu);
 
 
             }
