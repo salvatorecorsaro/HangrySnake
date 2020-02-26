@@ -153,14 +153,17 @@ public class Settings extends JFrame {
         btnSignUp.setFont(arcadeMedium);
         btnSignUp.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
-                String newUsr = txtUsername.getText();
+                String newUsr = txtUsername.getText().toLowerCase();
                 if (controlFlow.validInputChecker.checkValidUsername(newUsr)) {
 
                     try {
                         if (controlFlow.databaseManager.searchData("usr", "users", "usr", newUsr))
                             System.out.println("no");
-                        else
+                        else {
                             controlFlow.databaseManager.updateData(newUsr, controlFlow.userLogged);
+                            controlFlow.userLogged = newUsr;
+                        }
+
 
                     } catch (SQLException e) {
                         e.printStackTrace();

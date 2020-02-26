@@ -4,6 +4,8 @@ package com.scorsaro;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
@@ -43,6 +45,10 @@ public class SignUpView extends JFrame {
     private SignUpModel signUpInsert;
     JLabel lblSignUpMessages;
     String signUpMessages;
+    private int focusCounterUsername;
+    private int focusCounterPwd1;
+    private int focusCounterPwd2;
+    private int focusCounterEmail;
 
 
     public SignUpView(Responsive responsive, ControlFlow controlFlow) throws IOException {
@@ -55,7 +61,7 @@ public class SignUpView extends JFrame {
 
     private void initUI() throws IOException {
 
-        var rFont = responsive.responsiveFont;
+
         var rWidth = responsive.unitWidth;
         var rHeight = responsive.unitHeight;
         int fWidth;
@@ -80,6 +86,41 @@ public class SignUpView extends JFrame {
         txtUsername.setForeground(Color.BLUE);
         txtUsername.setBackground(Color.black);
         txtUsername.setBounds(fWidth / 4, (int)(fHeight * 0.21), fWidth/2, fHeight/12);
+        txtUsername.getDocument().addDocumentListener(new DocumentListener() {
+
+            @Override
+            public void insertUpdate(DocumentEvent documentEvent) {
+                emptyFieldChecker();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent documentEvent) {
+                emptyFieldChecker();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent documentEvent) {
+                emptyFieldChecker();
+            }
+        });
+        focusCounterUsername = 0;
+        txtUsername.addFocusListener(new FocusListener() {
+
+            @Override
+            public void focusGained(FocusEvent focusEvent) {
+                focusCounterUsername++;
+                if (focusCounterUsername > 1)
+                    txtUsername.setText("");
+            }
+
+            @Override
+            public void focusLost(FocusEvent focusEvent) {
+                if (txtUsername.getText().equals("")){
+                    txtUsername.setText("your  Username");
+                }
+            }
+        });
+
         mainFrame.getContentPane().add(txtUsername);
 
         txtEmail = new JTextField();
@@ -90,6 +131,40 @@ public class SignUpView extends JFrame {
         txtEmail.setForeground(Color.yellow);
         txtEmail.setBackground(Color.black);
         txtEmail.setBounds(fWidth / 4, (int)(fHeight * 0.31), fWidth/2, fHeight/12);
+        txtEmail.getDocument().addDocumentListener(new DocumentListener() {
+
+            @Override
+            public void insertUpdate(DocumentEvent documentEvent) {
+                emptyFieldChecker();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent documentEvent) {
+                emptyFieldChecker();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent documentEvent) {
+                emptyFieldChecker();
+            }
+        });
+        focusCounterEmail = 0;
+        txtEmail.addFocusListener(new FocusListener() {
+
+            @Override
+            public void focusGained(FocusEvent focusEvent) {
+                focusCounterEmail++;
+                if (focusCounterEmail > 1)
+                    txtEmail.setText("");
+            }
+
+            @Override
+            public void focusLost(FocusEvent focusEvent) {
+                if (txtEmail.getText().equals("")){
+                    txtEmail.setText("your  email");
+                }
+            }
+        });
         mainFrame.getContentPane().add(txtEmail);
 
 
@@ -124,6 +199,41 @@ public class SignUpView extends JFrame {
         pwdPassword1.setForeground(Color.gray);
         pwdPassword1.setBackground(Color.black);
         pwdPassword1.setBounds((int)(fWidth * 0.16 ), (int)(fHeight * 0.51), (int)(fWidth * 0.33 ), fHeight/12);;
+        pwdPassword1.getDocument().addDocumentListener(new DocumentListener() {
+
+            @Override
+            public void insertUpdate(DocumentEvent documentEvent) {
+                emptyFieldChecker();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent documentEvent) {
+                emptyFieldChecker();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent documentEvent) {
+                emptyFieldChecker();
+            }
+        });
+        focusCounterPwd1 = 0;
+        pwdPassword1.addFocusListener(new FocusListener() {
+
+            @Override
+            public void focusGained(FocusEvent focusEvent) {
+                focusCounterPwd1++;
+                if (focusCounterPwd1 > 0)
+                    pwdPassword1.setText("");
+            }
+
+            @Override
+            public void focusLost(FocusEvent focusEvent) {
+                String pwdStatus = String.valueOf(pwdPassword1.getPassword());
+                if (pwdStatus.equals("")){
+                    pwdPassword1.setText("your password");
+                }
+            }
+        });
         mainFrame.getContentPane().add(pwdPassword1);
 
         pwdPassword2 = new JPasswordField();
@@ -134,6 +244,41 @@ public class SignUpView extends JFrame {
         pwdPassword2.setForeground(Color.gray);
         pwdPassword2.setBackground(Color.black);
         pwdPassword2.setBounds((int)(fWidth * 0.51 ), (int)(fHeight * 0.51), (int)(fWidth * 0.33 ), fHeight/12);
+        pwdPassword2.getDocument().addDocumentListener(new DocumentListener() {
+
+            @Override
+            public void insertUpdate(DocumentEvent documentEvent) {
+                emptyFieldChecker();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent documentEvent) {
+                emptyFieldChecker();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent documentEvent) {
+                emptyFieldChecker();
+            }
+        });
+        focusCounterPwd2 = 0;
+        pwdPassword2.addFocusListener(new FocusListener() {
+
+            @Override
+            public void focusGained(FocusEvent focusEvent) {
+                focusCounterPwd2++;
+                if (focusCounterPwd2 > 0)
+                    pwdPassword2.setText("");
+            }
+
+            @Override
+            public void focusLost(FocusEvent focusEvent) {
+                String pwdStatus = String.valueOf(pwdPassword2.getPassword());
+                if (pwdStatus.equals("")){
+                    pwdPassword2.setText("your password");
+                }
+            }
+        });
         mainFrame.getContentPane().add(pwdPassword2);
 
         lblSignUpMessages = new JLabel();
@@ -227,6 +372,18 @@ public class SignUpView extends JFrame {
 
     }
 
+    public void emptyFieldChecker() {
+        String pwdStatus1 = String.valueOf(pwdPassword1.getPassword());
+        String pwdStatus2 = String.valueOf(pwdPassword2.getPassword());
+        if ((txtUsername.getText().equals("") || (pwdStatus1.equals(""))
+                || (pwdStatus2.equals("")) || focusCounterUsername == 0 || focusCounterPwd1 == 0 ||
+                focusCounterPwd2 == 0|| focusCounterEmail == 0)) {
+            btnSignUp.setEnabled(false);
+        }
+        else
+            btnSignUp.setEnabled((true));
+
+    }
 
     public void setLoginCheck(LoginModel loginCheck) {
         this.loginCheck = loginCheck;

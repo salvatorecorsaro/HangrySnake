@@ -16,6 +16,9 @@ public class GameFrame extends JFrame {
         initUI();
     }
 
+    /**
+     * Start the game frame
+     */
     private void initUI() {
         frameWidth = 40 * responsive.unitWidth;
         frameHeight = 40 * responsive.unitWidth;

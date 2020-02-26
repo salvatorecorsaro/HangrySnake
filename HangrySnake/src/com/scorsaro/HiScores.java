@@ -40,6 +40,8 @@ public class HiScores extends JFrame {
 
     private void initUI() throws IOException {
 
+        //setting up the UI
+
         var rWidth = responsive.unitWidth;
         var rHeight = responsive.unitHeight;
         int fWidth;
@@ -56,17 +58,14 @@ public class HiScores extends JFrame {
         mainFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
         fWidth = mainFrame.getWidth();
         fHeight = mainFrame.getHeight();
+        showLogo(fWidth, fHeight);
 
-        BufferedImage logoSrc = ImageIO.read(new File("pics/hangrySnake.png"));
-        logo = new JLabel(new ImageIcon(logoSrc.getScaledInstance(fWidth / 2, fHeight / 10, Image.SCALE_FAST)));
-        mainFrame.add(logo);
-        logo.setBounds((int) (fWidth * 0.25), (int) (fHeight * 0.025), fWidth / 2, fHeight / 10);
+        //HighScores table section
 
         tableHiScores = new JTable();
         tableHiScores.setBounds((int) (fWidth * 0.1), (int) (fHeight * 0.15), (int) (fWidth * 0.8), (int) (fHeight * 0.6));
         tableHiScores.setBackground(Color.black);
         tableHiScores.setForeground(Color.white);
-//        tableHiScores.setBorder(new LineBorder(Color.blue, rHeight/10)); check different solution
         tableHiScores.setFont(arcadeMedium);
         tableHiScores.setModel(new DefaultTableModel(
                 new Object[][]{
@@ -89,9 +88,9 @@ public class HiScores extends JFrame {
         tableHiScores.getColumnModel().getColumn(0).setMaxWidth((int) (fWidth * 0.3));
         tableHiScores.getColumnModel().getColumn(0).setMinWidth((int) (fWidth * 0.3));
         tableHiScores.getColumnModel().getColumn(0).setMaxWidth((int) (fWidth * 0.5));
-
-
         mainFrame.add(tableHiScores);
+
+        //MainMenu button section
 
         btnMenu = new JButton("MAIN MENU");
         btnMenu.setFont(arcadeMedium);
@@ -102,12 +101,12 @@ public class HiScores extends JFrame {
             public void actionPerformed(ActionEvent arg0) {
                 hideUI();
                 controlFlow.home.showUI(true);
-
-
             }
         });
         btnMenu.setBounds((int) (fWidth * 0.2), (int) (fHeight * 0.765), (int) (fWidth * 0.6), fHeight / 15);
         mainFrame.getContentPane().add(btnMenu);
+
+       //Quit button section
 
         btnQuit = new JButton("QUIT");
         btnQuit.setFont(arcadeMedium);
@@ -123,15 +122,19 @@ public class HiScores extends JFrame {
                     e.printStackTrace();
                 }
                 exitGame();
-
-
             }
         });
         btnQuit.setBounds((int) (fWidth * 0.3), (int) (fHeight * 0.84), (int) (fWidth * 0.4), fHeight / 15);
         mainFrame.getContentPane().add(btnQuit);
-
         showUI();
 
+    }
+
+    private void showLogo(int fWidth, int fHeight) throws IOException {
+        BufferedImage logoSrc = ImageIO.read(new File("pics/hangrySnake.png"));
+        logo = new JLabel(new ImageIcon(logoSrc.getScaledInstance(fWidth / 2, fHeight / 10, Image.SCALE_FAST)));
+        mainFrame.add(logo);
+        logo.setBounds((int) (fWidth * 0.25), (int) (fHeight * 0.025), fWidth / 2, fHeight / 10);
     }
 
 

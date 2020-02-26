@@ -8,6 +8,8 @@ public class Main {
 
     public static void main(String[] args) throws SQLException, IOException, FontFormatException {
 
+//call the class ControlFlow that start the game
+
     var start = new ControlFlow();
 
 

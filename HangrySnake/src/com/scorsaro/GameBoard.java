@@ -19,15 +19,15 @@ public class GameBoard extends JPanel implements ActionListener {
 
     private int gameUnit;
     private int boardArea;
-    private final int RAND_POS = 39;
-    private int speed = 140;
+    private final int RAND_POS = 38;
+    private int speed = 120;
 
     private int x[];
     private int y[];
     private final Responsive responsive;
     private GameFrame gameFrame;
 
-    private int dots;
+    private int snakeUnit;
     private int object_x;
     private int object_y;
 
@@ -48,7 +48,6 @@ public class GameBoard extends JPanel implements ActionListener {
     private FontMetrics metrMedium;
     private FontMetrics metrSmall;
     private Image tail;
-    private Image object_2;
 
     public GameBoard(Responsive responsive, GameFrame gameFrame, ControlFlow controlFlow) {
         this.responsive = responsive;
@@ -57,6 +56,10 @@ public class GameBoard extends JPanel implements ActionListener {
         initBoard();
     }
 
+
+    /**
+     * Initialize the gameBoard
+     */
     private void initBoard() {
         gameUnit = gameFrame.frameHeight / 40;
         score = 0;
@@ -67,6 +70,9 @@ public class GameBoard extends JPanel implements ActionListener {
         initGame();
     }
 
+    /**
+     * Charges the images from the files
+     */
     private void loadImages() {
 
         ImageIcon iid = new ImageIcon("pics/SnakeBody.png");
@@ -77,36 +83,33 @@ public class GameBoard extends JPanel implements ActionListener {
         Image imagea = iia.getImage();
         object_1 = imagea.getScaledInstance(gameUnit, gameUnit, Image.SCALE_SMOOTH);
 
-        ImageIcon iib = new ImageIcon("pics/avocado.png");
-        Image imageb = iib.getImage();
-        object_2 = imageb.getScaledInstance(gameUnit, gameUnit, Image.SCALE_SMOOTH);
-
         ImageIcon iih = new ImageIcon("pics/SnakeHead.png");
         Image imageh = iih.getImage();
         head = imageh.getScaledInstance(gameUnit, gameUnit, Image.SCALE_SMOOTH);
-
 
         ImageIcon iit = new ImageIcon("pics/SnakeTail.png");
         Image imaget = iit.getImage();
         tail = imaget.getScaledInstance(gameUnit, gameUnit, Image.SCALE_SMOOTH);
     }
 
+    /**
+     *Set the starting position of the player and the object
+     */
     private void initGame() {
         boardArea = gameFrame.frameWidth * gameFrame.frameHeight;
 
         gameCoords = gameFrame.frameHeight / 6;
         x = new int[boardArea];
         y = new int[boardArea];
-        dots = 3;
-        System.out.println("gamecoord is " + gameCoords);
+        snakeUnit = 3;
 
-        for (int z = 0; z < dots; z++) {
+        for (int i = 0; i < snakeUnit; i++) {
 
-            x[z] = gameCoords * 3 - gameUnit;
-            y[z] = gameCoords * 3;
+            x[i] = gameCoords * 3 - gameUnit;
+            y[i] = gameCoords * 3;
         }
 
-        locateApple();
+        locateObject();
 
         timer = new Timer(speed, this);
         timer.start();
@@ -127,13 +130,14 @@ public class GameBoard extends JPanel implements ActionListener {
         }
     }
 
+    /**
+     * Method the draws the graphics
+     * @param g
+     * @throws SQLException
+     */
     private void doDrawing(Graphics g) throws SQLException {
-        int randomObject = 0;//(int) (Math.random() * 2);
-        if(randomObject == 0)
-            g.drawImage(object_1, object_x, object_y, this);
-        else
-            g.drawImage(object_2, object_x, object_y, this);
 
+        g.drawImage(object_1, object_x, object_y, this);
         actualScore = "" + score;
         metrSmall = getFontMetrics(responsive.arcadeSmall);
         g.setColor(Color.white);
@@ -142,12 +146,11 @@ public class GameBoard extends JPanel implements ActionListener {
 
         if (inGame) {
 
-
-            for (int z = 0; z < dots; z++) {
+            for (int z = 0; z < snakeUnit; z++) {
                 if (z == 0) {
                     g.drawImage(head, x[z], y[z], this);
                 }
-                else if (z == dots - 1 ) {
+                else if (z == snakeUnit - 1 ) {
                     g.drawImage(tail, x[z], y[z], this);
                 }
                 else {
@@ -163,10 +166,14 @@ public class GameBoard extends JPanel implements ActionListener {
         }
     }
 
+    /**
+     * Method that shows the game over menu with different options
+     * @param g
+     * @throws SQLException
+     */
     private void gameOverMenu(Graphics g) throws SQLException {
 
         String activeUser = controlFlow.getUserLogged();
-        System.out.println("sei morto" + activeUser);
         controlFlow.databaseManager.newGameScore(activeUser, score);
 
         String gameOver = "Game Over";
@@ -200,27 +207,32 @@ public class GameBoard extends JPanel implements ActionListener {
         g.drawString(gameMainMenu, ((gameFrame.frameWidth - metrMedium.stringWidth(gameMainMenu)) / 2), (int) (gameFrame.frameHeight * 0.62));
     }
 
-    private void checkApple() {
+    /**
+     * Method that check the collision of the player with the object
+     */
+    private void checkCollisionObject() {
 
         for (int i = 0; i < gameUnit; i++) {
             if ((x[0] == object_x - i) && (y[0] == object_y - i)) {
-                System.out.println("preso!");
-                dots++;
-                if (speed >= 100)
+                snakeUnit++;
+                if (speed >= 80)
                     speed -= 4;
                 score += 100;
-                locateApple();
+                locateObject();
             }
         }
 
 
     }
 
-    private void move() {
+    /**
+     * Method that control the "movement" calculating the position of the player for each "piece"of the snake
+     */
+     void move() {
 
-        for (int z = dots; z > 0; z--) {
-            x[z] = x[(z - 1)];
-            y[z] = y[(z - 1)];
+        for (int i = snakeUnit; i > 0; i--) {
+            x[i] = x[(i - 1)];
+            y[i] = y[(i - 1)];
         }
 
         if (leftDirection) {
@@ -240,9 +252,9 @@ public class GameBoard extends JPanel implements ActionListener {
         }
     }
 
-    private void checkCollision() {
+    private void checkBorderCollision() {
 
-        for (int z = dots; z > 0; z--) {
+        for (int z = snakeUnit; z > 0; z--) {
 
             if ((z > 3) && (x[0] == x[z]) && (y[0] == y[z])) {
                 inGame = false;
@@ -270,7 +282,10 @@ public class GameBoard extends JPanel implements ActionListener {
         }
     }
 
-    private void locateApple() {
+    /**
+     * Calculate the random position of the object (ex: "tomato") based on the frame width and height
+     */
+    private void locateObject() {
         System.out.println("game unit is " + gameUnit);
 
         int r = (int) (Math.random() * RAND_POS);
@@ -287,10 +302,8 @@ public class GameBoard extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
 
         if (inGame) {
-            System.out.println(x[0]);
-            System.out.println(y[0]);
-            checkApple();
-            checkCollision();
+            checkCollisionObject();
+            checkBorderCollision();
             move();
         }
 

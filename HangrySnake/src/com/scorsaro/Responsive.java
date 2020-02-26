@@ -21,7 +21,13 @@ public class Responsive {
         responsiveScreenUnit();
     }
 
-    	public void responsiveScreenUnit() throws IOException, FontFormatException {
+
+    /**
+     * Calculate responsive screen units
+     * @throws IOException
+     * @throws FontFormatException
+     */
+    public void responsiveScreenUnit() throws IOException, FontFormatException {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         screenHeight = screenSize.height;
         screenWidth = screenSize.width;
@@ -31,6 +37,12 @@ public class Responsive {
         responsiveFont = new Font(Font.SANS_SERIF, Font.PLAIN, (int)screenHeight/55);
     }
 
+
+    /**
+     * Calculate a responsive personalized font
+     * @throws FontFormatException
+     * @throws IOException
+     */
     private void setArcadeFont() throws FontFormatException, IOException {
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
         arcadeSmall = Font.createFont(Font.TRUETYPE_FONT, new File("fonts/arcade.TTF")).deriveFont(screenHeight/45);

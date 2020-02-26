@@ -37,6 +37,10 @@ public class Home extends JFrame {
         initUI();
     }
 
+    /**
+     * Set the UI Frame of the MainMenu( with responsive width and height and fonts)
+     * @throws IOException
+     */
     private void initUI() throws IOException {
 
         var rWidth = responsive.unitWidth;
@@ -56,11 +60,10 @@ public class Home extends JFrame {
         fWidth = mainFrame.getWidth();
         fHeight = mainFrame.getHeight();
 
-        BufferedImage logoSrc = ImageIO.read(new File("pics/hangrySnake.png"));
-        logo = new JLabel(new ImageIcon(logoSrc.getScaledInstance((int) (fWidth / 1.5), fHeight / 5, Image.SCALE_FAST)));
-        mainFrame.add(logo);
-        logo.setBounds((int) (fWidth * 0.165), (int) (fHeight * 0.01), (int) (fWidth / 1.5), fHeight / 5);
 
+        paintLogo(fWidth, fHeight);
+
+        //"Play" section of Main Menu
 
         btnPlay = new JButton("PLAY");
         btnPlay.setFont(arcadeLarge);
@@ -69,14 +72,14 @@ public class Home extends JFrame {
         btnPlay.setBackground(Color.black);
         btnPlay.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
-                hideUI();
+                showUI(false);
                 controlFlow.startGame();
-
-
             }
         });
         btnPlay.setBounds(fWidth / 4, (int) (fHeight * 0.44), fWidth / 2, fHeight / 7);
         mainFrame.getContentPane().add(btnPlay);
+
+        //"HighScores" section of Main Menu
 
         btnHiScores = new JButton("HIGHSCORES");
         btnHiScores.setFont(arcadeMedium);
@@ -86,20 +89,20 @@ public class Home extends JFrame {
         btnHiScores.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
 
-                hideUI();
+                showUI(false);
                 try {
-                    controlFlow.showHiScores();
+                    controlFlow.startHiScores();
                 } catch (SQLException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
-
             }
         });
         btnHiScores.setBounds(fWidth / 4, (int) (fHeight * 0.60), fWidth / 2, fHeight / 15);
         mainFrame.getContentPane().add(btnHiScores);
+
+        //"MultiPlayer" section of Main Menu
 
         btnMultiplayer = new JButton("MULTIPLAYER");
         btnMultiplayer.setFont(arcadeMedium);
@@ -111,11 +114,12 @@ public class Home extends JFrame {
                 //TODO
 
                 System.out.println(username + "is logged in main");
-
             }
         });
         btnMultiplayer.setBounds(fWidth / 4, (int) (fHeight * 0.68), fWidth / 2, fHeight / 15);
         mainFrame.getContentPane().add(btnMultiplayer);
+
+        //"Settings" section of Main Menu
 
         btnSettings = new JButton("SETTINGS");
         btnSettings.setFont(arcadeMedium);
@@ -131,11 +135,12 @@ public class Home extends JFrame {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
             }
         });
         btnSettings.setBounds((fWidth / 4), (int) (fHeight * 0.76), fWidth / 2, fHeight / 15);
         mainFrame.getContentPane().add(btnSettings);
+
+        //"Quit" section of Main Menu
 
         btnQuit = new JButton("QUIT");
         btnQuit.setFont(arcadeMedium);
@@ -150,8 +155,6 @@ public class Home extends JFrame {
                     e.printStackTrace();
                 }
                 exitGame();
-
-
             }
         });
         btnQuit.setBounds((int) (fWidth * 0.3), (int) (fHeight * 0.84), (int) (fWidth * 0.4), fHeight / 15);
@@ -162,11 +165,17 @@ public class Home extends JFrame {
 
     }
 
-
-    public void hideUI() {
-        mainFrame.setVisible(false);
+    private void paintLogo(int fWidth, int fHeight) throws IOException {
+        BufferedImage logoSrc = ImageIO.read(new File("pics/hangrySnake.png"));
+        logo = new JLabel(new ImageIcon(logoSrc.getScaledInstance((int) (fWidth / 1.5), fHeight / 5, Image.SCALE_FAST)));
+        mainFrame.add(logo);
+        logo.setBounds((int) (fWidth * 0.165), (int) (fHeight * 0.01), (int) (fWidth / 1.5), fHeight / 5);
     }
 
+    /**
+     * method that set the visibility of the UI
+     * @param value
+     */
     public void showUI(boolean value) {
         mainFrame.setVisible(value);
     }

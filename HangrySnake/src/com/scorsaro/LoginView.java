@@ -3,10 +3,10 @@ package com.scorsaro;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -20,18 +20,18 @@ public class LoginView extends JFrame {
     private Responsive responsive;
     private LoginModel loginModel;
     private JFrame mainFrame;
+    private JLabel logo;
+    JButton btnLogin;
+    private JButton btnSignUp;
     JPasswordField pwdPassword;
     JTextField txtUsername;
     JLabel coinPic1;
     JLabel coinPic2;
     JLabel coinPic3;
-    private JLabel logo;
-    private JLabel snake;
-    private JLabel avocado;
-    private JButton btnLogin;
-    private JButton btnSignUp;
     Font arcadeMedium;
     Font arcadeLarge;
+    int focusCounterLogin;
+    int focusCounterPwd;
 
 
     public LoginView(Responsive responsive, ControlFlow controlFlow) throws IOException {
@@ -44,7 +44,7 @@ public class LoginView extends JFrame {
 
     private void initUI() throws IOException {
 
-        var rFont = responsive.responsiveFont;
+        //General frame settings
         var rWidth = responsive.unitWidth;
         var rHeight = responsive.unitHeight;
         int fWidth;
@@ -60,7 +60,8 @@ public class LoginView extends JFrame {
         fWidth = mainFrame.getWidth();
         fHeight = mainFrame.getHeight();
 
-
+        //Username textfield
+        focusCounterLogin = 0;
         txtUsername = new JTextField();
         txtUsername.setFont(arcadeMedium);
         txtUsername.setHorizontalAlignment(JTextField.CENTER);
@@ -69,7 +70,42 @@ public class LoginView extends JFrame {
         txtUsername.setForeground(Color.BLUE);
         txtUsername.setBackground(Color.black);
         txtUsername.setBounds((int)(fWidth * 0.20), (int)(fHeight * 0.29), (int)(fWidth * 0.6), fHeight/10);
+        txtUsername.addFocusListener(new FocusListener() {
+
+            @Override
+            public void focusGained(FocusEvent focusEvent) {
+                focusCounterLogin++;
+                if (focusCounterLogin > 1)
+                    txtUsername.setText("");
+            }
+
+            @Override
+            public void focusLost(FocusEvent focusEvent) {
+                if (txtUsername.getText().equals("")){
+                    txtUsername.setText("your  Username");
+                }
+            }
+        });
+        txtUsername.getDocument().addDocumentListener(new DocumentListener() {
+
+            @Override
+            public void insertUpdate(DocumentEvent documentEvent) {
+            emptyFieldChecker();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent documentEvent) {
+            emptyFieldChecker();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent documentEvent) {
+            emptyFieldChecker();
+            }
+        });
         mainFrame.getContentPane().add(txtUsername);
+
+        //Password textfield
 
         pwdPassword = new JPasswordField();
         pwdPassword.setFont(arcadeMedium);
@@ -79,7 +115,44 @@ public class LoginView extends JFrame {
         pwdPassword.setForeground(Color.red);
         pwdPassword.setBackground(Color.black);
         pwdPassword.setBounds((int)(fWidth * 0.20), (int)(fHeight * 0.4), (int)(fWidth * 0.6), fHeight/10);
+        focusCounterPwd = 0;
+        pwdPassword.addFocusListener(new FocusListener() {
+
+            @Override
+            public void focusGained(FocusEvent focusEvent) {
+                focusCounterPwd++;
+                if (focusCounterPwd > 0)
+                    pwdPassword.setText("");
+            }
+
+            @Override
+            public void focusLost(FocusEvent focusEvent) {
+                String pwdStatus = String.valueOf(pwdPassword.getPassword());
+                if (pwdStatus.equals("")){
+                    pwdPassword.setText("your password");
+                }
+            }
+        });
+        pwdPassword.getDocument().addDocumentListener(new DocumentListener() {
+
+            @Override
+            public void insertUpdate(DocumentEvent documentEvent) {
+                emptyFieldChecker();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent documentEvent) {
+                emptyFieldChecker();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent documentEvent) {
+                emptyFieldChecker();
+            }
+        });
         mainFrame.getContentPane().add(pwdPassword);
+
+        //Login button
 
         btnLogin = new JButton("Login");
         btnLogin.setBorder(new LineBorder(Color.GREEN, rHeight/2));
@@ -94,12 +167,14 @@ public class LoginView extends JFrame {
                 } catch (SQLException | IOException e) {
                     e.printStackTrace();
                 }
-
-
             }
         });
         btnLogin.setBounds((int)(fWidth * 0.55), (int)(fHeight * 0.7), fWidth/4, fHeight/10);
+        btnLogin.setEnabled(false);
+
         mainFrame.getContentPane().add(btnLogin);
+
+        //SignUp login
 
         btnSignUp = new JButton("Sign up");
         btnSignUp.setBorder(new LineBorder(Color.yellow, rHeight/2));
@@ -117,10 +192,24 @@ public class LoginView extends JFrame {
             }
         });
         btnSignUp.setBounds((int)(fWidth * 0.20), (int)(fHeight * 0.7), fWidth/4, fHeight/10);
+        btnSignUp.setEnabled(true);
         mainFrame.getContentPane().add(btnSignUp);
 
+        //coin images
+
+        showCoinImages(fWidth, fHeight);
 
 
+
+    }
+
+    /**
+     * Show coin images on login page
+     * @param fWidth
+     * @param fHeight
+     * @throws IOException
+     */
+    private void showCoinImages(int fWidth, int fHeight) throws IOException {
         BufferedImage coin = ImageIO.read(new File("pics/coin.png"));
         coinPic1 = new JLabel(new ImageIcon(coin.getScaledInstance(fWidth/13, fHeight/13, Image.SCALE_FAST)));
         mainFrame.add(coinPic1);
@@ -135,10 +224,7 @@ public class LoginView extends JFrame {
         logo = new JLabel(new ImageIcon(logoSrc.getScaledInstance((int)(fWidth/1.5), fHeight/5, Image.SCALE_FAST)));
         mainFrame.add(logo);
         logo.setBounds((int)(fWidth * 0.165), (int)(fHeight * 0.01), (int)(fWidth/1.5) , fHeight/5);
-
-
     }
-
 
 
     public void hideUI() {
@@ -156,5 +242,17 @@ public class LoginView extends JFrame {
     public void setLoginModel(LoginModel loginModel) {
         this.loginModel = loginModel;
     }
+
+    public void emptyFieldChecker() {
+        String pwdStatus = String.valueOf(pwdPassword.getPassword());
+            if ((txtUsername.getText().equals("") || (pwdStatus.equals(""))
+                    || focusCounterLogin == 0 || focusCounterPwd == 0)) {
+                btnLogin.setEnabled(false);
+            }
+            else
+                btnLogin.setEnabled((true));
+
+    }
+
 
 }
