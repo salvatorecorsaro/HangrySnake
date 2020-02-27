@@ -120,6 +120,7 @@ public class Home extends JFrame {
             }
         });
         btnMultiplayer.setBounds(fWidth / 4, (int) (fHeight * 0.68), fWidth / 2, fHeight / 15);
+        btnMultiplayer.setEnabled(false);
         mainFrame.getContentPane().add(btnMultiplayer);
 
         //"Settings" section of Main Menu
